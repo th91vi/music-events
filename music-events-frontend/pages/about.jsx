@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const About = () => {
   return (
     <div>
@@ -8,6 +10,7 @@ const About = () => {
         autem id illo earum voluptatem quaerat. Nemo aliquam vel suscipit quam.
       </p>
       <p>Version 1.0.0</p>
+      <Link href="/">Home</Link>
     </div>
   );
 };
