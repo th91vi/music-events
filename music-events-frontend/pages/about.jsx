@@ -1,8 +1,9 @@
 import Link from "next/link";
+import Layout from "../components/Layout";
 
 const About = () => {
   return (
-    <div>
+    <Layout title="About Music Events">
       <h1>About</h1>
       <p>
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad, eveniet
@@ -11,7 +12,7 @@ const About = () => {
       </p>
       <p>Version 1.0.0</p>
       <Link href="/">Home</Link>
-    </div>
+    </Layout>
   );
 };
 
