@@ -1,21 +1,26 @@
 import Head from "next/head";
 import { ThemeProvider } from "styled-components";
-import GlobalStyles from "../styles/theme/global";
-import theme from "../styles/theme/theme";
+import GlobalStyles from "../../styles/theme/global";
+import theme from "../../styles/theme/theme";
+
+import Header from "../Header";
+import Footer from "../Footer";
+
+import * as S from "./styles";
 
 const Layout = ({ title, keywords, description, children }) => {
   return (
     <>
       <GlobalStyles />
       <ThemeProvider theme={theme}>
-        <div>
-          <Head>
-            <title>{title}</title>
-            <meta name="description" content={description} />
-            <meta name="keywords" content={keywords} />
-          </Head>
-          {children}
-        </div>
+        <Head>
+          <title>{title}</title>
+          <meta name="description" content={description} />
+          <meta name="keywords" content={keywords} />
+        </Head>
+        <Header />
+        <S.Container>{children}</S.Container>
+        <Footer />
       </ThemeProvider>
     </>
   );
