@@ -1,14 +1,18 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { ThemeProvider } from "styled-components";
-import GlobalStyles from "../../styles/theme/global";
-import theme from "../../styles/theme/theme";
+import GlobalStyles from "@/styles/theme/global";
+import theme from "@/styles/theme/theme";
 
 import Header from "../Header";
+import Showcase from "../Showcase";
 import Footer from "../Footer";
 
 import * as S from "./styles";
 
 const Layout = ({ title, keywords, description, children }) => {
+  const router = useRouter();
+
   return (
     <>
       <GlobalStyles />
@@ -19,6 +23,7 @@ const Layout = ({ title, keywords, description, children }) => {
           <meta name="keywords" content={keywords} />
         </Head>
         <Header />
+        {router.pathname === "/" && <Showcase />}
         <S.Container>{children}</S.Container>
         <Footer />
       </ThemeProvider>

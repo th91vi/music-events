@@ -11,7 +11,7 @@ const Error = styled.div`
   }
 `;
 
-import Layout from "../components/Layout";
+import Layout from "@/components/Layout";
 
 const NotFoundPage = () => {
   return (
