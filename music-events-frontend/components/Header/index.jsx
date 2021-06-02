@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Search from "../Search/Search";
+
 import * as S from "./styles";
 
 const Header = () => {
@@ -9,6 +11,7 @@ const Header = () => {
           <a>DJ Events</a>
         </Link>
       </S.Logo>
+      <Search />
       <S.NavLinks>
         <ul>
           <li>
