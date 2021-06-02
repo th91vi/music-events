@@ -3,6 +3,7 @@ import Image from "next/image";
 import { FaPencilAlt, FaTimes, FaAngleDoubleLeft } from "react-icons/fa";
 import Layout from "@/components/Layout";
 import { API_URL } from "@/config/index";
+import formatDate from "@/utils/formatDate";
 
 import * as S from "./Slug.styles";
 
@@ -26,12 +27,16 @@ const EventPage = ({ evt }) => {
             </a>
           </div>
           <span>
-            {evt.date} at {evt.time}
+            {formatDate(evt.date)} at {evt.time}
           </span>
           <h1>{evt.name}</h1>
           {evt.image && (
             <div className="image">
-              <Image src={evt.image} width={960} height={600} />
+              <Image
+                src={evt.image.formats.large.url}
+                width={960}
+                height={600}
+              />
             </div>
           )}
           <h3>Performers:</h3>
@@ -52,7 +57,7 @@ const EventPage = ({ evt }) => {
 };
 
 export async function getServerSideProps({ query: { slug } }) {
-  const res = await fetch(`${API_URL}/api/events/${slug}`);
+  const res = await fetch(`${API_URL}/events?slug=${slug}`);
   const events = await res.json();
 
   return {
