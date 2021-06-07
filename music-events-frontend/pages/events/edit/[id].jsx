@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import moment from "moment";
 import Layout from "@/components/Layout";
 import Modal from "@/components/Modal/Modal";
+import ImageUpload from "@/components/ImageUpload/ImageUpload";
 import { API_URL } from "@/config/index";
 
 import * as S from "../addEvent.styles";
@@ -72,6 +73,13 @@ const EditEventPage = ({ eventInfo }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
+  };
+
+  const imageUploaded = async () => {
+    const res = await fetch(`${API_URL}/events/${eventInfo.id}`);
+    const { image } = await res.json();
+    setImagePreview(image.formats.thumbnail.url);
+    setShowModal(false);
   };
 
   return (
@@ -159,28 +167,25 @@ const EditEventPage = ({ eventInfo }) => {
       </S.AddEventForm>
       <h2>Event Image</h2>
       {imagePreview ? (
-        <Image
-          src={imagePreview}
-          height={100}
-          width={170}
-          onClick={() => setShowModal(true)}
-        />
+        <div>
+          <Image src={imagePreview} height={100} width={170} />
+        </div>
       ) : (
-        <>
-          <div>
-            <p>No image uploaded</p>
-          </div>
-
-          <div>
-            <div className="btn-secondary btn-icon">
-              <FaImage /> Set Image
-            </div>
-          </div>
-        </>
+        <div>
+          <p>No image uploaded</p>
+        </div>
       )}
+      <div>
+        <button
+          className="btn-secondary btn-icon"
+          onClick={() => setShowModal(true)}
+        >
+          <FaImage /> Set Image
+        </button>
+      </div>
       <ToastContainer />
       <Modal showModal={showModal} onClick={() => setShowModal(false)}>
-        IMAGE UPLOAD
+        <ImageUpload eventId={eventInfo.id} imageUploaded={imageUploaded} />
       </Modal>
     </Layout>
   );
