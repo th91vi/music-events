@@ -150,7 +150,7 @@ const AddEventPage = () => {
         </div>
         <input type="submit" value="Add Event" className="btn" />
       </S.AddEventForm>
-      <ToastContainer></ToastContainer>
+      <ToastContainer />
     </Layout>
   );
 };

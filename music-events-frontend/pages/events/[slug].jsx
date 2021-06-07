@@ -1,15 +1,34 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { FaPencilAlt, FaTimes, FaAngleDoubleLeft } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
 import Layout from "@/components/Layout";
 import { API_URL } from "@/config/index";
 import formatDate from "@/utils/formatDate";
 
 import * as S from "./Slug.styles";
+import "react-toastify/dist/ReactToastify.css";
 
 const EventPage = ({ evt }) => {
-  const deleteEvent = (e) => {
-    console.log("e");
+  const router = useRouter();
+
+  const deleteEvent = async (e) => {
+    if (confirm("Are you sure you want to delete this event?")) {
+      const res = await fetch(`${API_URL}/events/${evt.id}`, {
+        method: "DELETE",
+      });
+
+      const eventInfo = res.json();
+
+      if (!res.ok) {
+        toast.error(eventInfo.message, {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+      } else {
+        router.push("/events");
+      }
+    }
   };
 
   return (
@@ -52,6 +71,7 @@ const EventPage = ({ evt }) => {
           </Link>
         </div>
       </S.EventsSlug>
+      <ToastContainer />
     </Layout>
   );
 };
