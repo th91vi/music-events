@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { FaAngleDoubleLeft } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
 import Layout from "@/components/Layout";
 import { API_URL } from "@/config/index";
 
 import * as S from "./addEvent.styles";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddEventPage = () => {
   const [values, setValues] = useState({
@@ -20,9 +22,44 @@ const AddEventPage = () => {
 
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const hasEmptyFields = (values) => {
+    const DoesItContainEmptyFields = Object.values(values).some(
+      (value) => value === ""
+    );
+
+    return DoesItContainEmptyFields;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(values);
+
+    const DoesItContainEmptyFields = hasEmptyFields(values);
+
+    if (DoesItContainEmptyFields) {
+      toast.error(
+        "All form fields are obligatory. Please check the form for empty fields.",
+        {
+          position: toast.POSITION.BOTTOM_CENTER,
+        }
+      );
+    }
+
+    const res = await fetch(`${API_URL}/events`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
+
+    if (!res.ok) {
+      toast.error(res.statusText, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
+    } else {
+      const eventInfo = await res.json();
+      router.push(`/events/${eventInfo.slug}`);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -113,6 +150,7 @@ const AddEventPage = () => {
         </div>
         <input type="submit" value="Add Event" className="btn" />
       </S.AddEventForm>
+      <ToastContainer></ToastContainer>
     </Layout>
   );
 };
