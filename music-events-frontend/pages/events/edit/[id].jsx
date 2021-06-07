@@ -6,6 +6,7 @@ import { FaImage, FaAngleDoubleLeft } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import moment from "moment";
 import Layout from "@/components/Layout";
+import Modal from "@/components/Modal/Modal";
 import { API_URL } from "@/config/index";
 
 import * as S from "../addEvent.styles";
@@ -24,6 +25,7 @@ const EditEventPage = ({ eventInfo }) => {
   const [imagePreview, setImagePreview] = useState(
     eventInfo.image ? eventInfo.image.formats.thumbnail.url : null
   );
+  const [showModal, setShowModal] = useState(false);
 
   const router = useRouter();
 
@@ -157,7 +159,12 @@ const EditEventPage = ({ eventInfo }) => {
       </S.AddEventForm>
       <h2>Event Image</h2>
       {imagePreview ? (
-        <Image src={imagePreview} height={100} width={170} />
+        <Image
+          src={imagePreview}
+          height={100}
+          width={170}
+          onClick={() => setShowModal(true)}
+        />
       ) : (
         <>
           <div>
@@ -165,13 +172,16 @@ const EditEventPage = ({ eventInfo }) => {
           </div>
 
           <div>
-            <div className="button-secondary">
+            <div className="btn-secondary btn-icon">
               <FaImage /> Set Image
             </div>
           </div>
         </>
       )}
       <ToastContainer />
+      <Modal showModal={showModal} onClick={() => setShowModal(false)}>
+        IMAGE UPLOAD
+      </Modal>
     </Layout>
   );
 };
