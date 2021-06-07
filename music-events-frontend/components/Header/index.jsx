@@ -19,6 +19,11 @@ const Header = () => {
               <a>Events</a>
             </Link>
           </li>
+          <li>
+            <Link href="/events/addEvent">
+              <a>Add event</a>
+            </Link>
+          </li>
         </ul>
       </S.NavLinks>
     </S.Header>
