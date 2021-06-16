@@ -8,6 +8,10 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
+  const router = useRouter();
+
+  useEffect(() => checkUserLogin, []);
+
   const register = async (user) => {
     console.log(user);
   };
@@ -38,8 +42,16 @@ export const AuthProvider = ({ children }) => {
     console.log("logout");
   };
 
-  const checkUserLogin = async () => {
-    console.log("check");
+  const checkUserLogin = async (user) => {
+    const res = await fetch(`${NEXT_URL}/user`);
+    const data = await res.json();
+
+    if (res.ok) {
+      setUser(data.user);
+      router.push("/account/dashboard");
+    } else {
+      setUser(null);
+    }
   };
 
   return (
